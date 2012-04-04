@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Install-rails by mbriggs</title>
+  </head>
+
+  <body>
+    <a id="forkme_banner" href="https://github.com/mbriggs/install-rails">Fork Me on GitHub</a>
+    <div class="shell">
+
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Install-rails</h1>
+            <h2>Step by step instructions for how to install rails on OSX, Windows, and Ubuntu</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
+
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/mbriggs/install-rails/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/mbriggs/install-rails/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
+
+      <span class="banner-fix"></span>
+
+      <section id="main_content">
+        <h1>Installing Rails</h1>
+
+<p>Installing rails can be quite daunting for a beginner, and there is a good deal of bad documentation on the internet just waiting to trip you up. This is a simple, step by step guide to help you through the process.</p>
+
+<p>Before starting, please get rid of any existing attempts to install rails (via apt, macports, etc). The methods provided will work, and are the preferred way that experienced rails developers use to get rails up and running on a machine. If you require help along the way, feel free to open an issue on <a href="http://github.com/mbriggs/install-rails/issues">http://github.com/mbriggs/install-rails/issues</a>, ask a question on <a href="http://stackoverflow.com">http://stackoverflow.com</a>, ask questions in <code>#ruby</code> or <code>#rubyonrails</code> on freenode, or send an email to help@installrails.com.</p>
+
+<p>Feedback is always appreciated, as are pull requests. If you have any corrections to make or enhancements to add, you can fork this project at <a href="http://github.com/mbriggs/install-rails">http://github.com/mbriggs/install-rails</a> (just modify the README). For general feedback, fire off an email to feedback@installrails.com.</p>
+
+<p><em>THIS GUIDE IS STILL IN BETA!</em></p>
+
+<p>I still am in the process of writing and testing, so YMMV.</p>
+
+<h1>Installing Rails on OSX</h1>
+
+<p>OSX is the operating system of choice for both ruby and rails developers. Support is excellent, and it should be easy to find help with any os specific problems you may encounter due to the fact that most of the community is using this operating system.</p>
+
+<h3>1. Install GCC Toolchain</h3>
+
+<p>GCC is an extremely popular C compiler that we will use to build ruby (and that ruby will use to build libraries that have C dependencies in the future).</p>
+
+<p>If you are planning on doing any iOS/OSX development, your best choice is to just get it with XCode (the IDE for everything Apple). It can be downloaded for free off of the appstore, although it is quite a large download, so this can take some time.</p>
+
+<p>Once it is installed, launch the application, and open its preferences (in the XCode menu, or press cmd-,). Click on the "Downloads" tab, and press the button that says "Install" next to "Command Line Tools"</p>
+
+<p>If you do not plan on developing anything on Apples platforms, you can opt for the <em>much</em> smaller GCC installer for OSX, which can be found here <a href="https://github.com/kennethreitz/osx-gcc-installer">https://github.com/kennethreitz/osx-gcc-installer</a>.</p>
+
+<p>Once you have installed gcc, you can make sure it is accessible by opening a new terminal, and entering <code>gcc -v</code>. You should see something resembling the following snippet</p>
+
+<div class="highlight">
+<pre> % gcc -v
+Using built-in specs. Target: i686-apple-darwin11 Configured with: /private/var/tmp/llvmgcc42/llvmgcc42-2336.9~22/src/configure --disable-checking --enable-werror --prefix<span class="o">=</span>/Applications/Xcode.app/Contents/Developer/usr/llvm-gcc-4.2 --mandir<span class="o">=</span>/share/man --enable-languages<span class="o">=</span>c,objc,c++,obj-c++ --program-prefix<span class="o">=</span>llvm- --program-transform-name<span class="o">=</span>/^<span class="o">[</span>cg<span class="o">][</span>^.-<span class="o">]</span>*<span class="nv">$/</span>s/<span class="nv">$/</span>-4.2/ --with-slibdir<span class="o">=</span>/usr/lib --build<span class="o">=</span>i686-apple-darwin11 --enable-llvm<span class="o">=</span>/private/var/tmp/llvmgcc42/llvmgcc42-2336.9~22/dst-llvmCore/Developer/usr/local --program-prefix<span class="o">=</span>i686-apple-darwin11- --host<span class="o">=</span>x86_64-apple-darwin11 --target<span class="o">=</span>i686-apple-darwin11 --with-gxx-include-dir<span class="o">=</span>/usr/include/c++/4.2.1 Thread model: posix gcc version 4.2.1 <span class="o">(</span>Based on Apple Inc. build 5658<span class="o">)</span> <span class="o">(</span>LLVM build 2336.9.00<span class="o">)</span>
+</pre>
+</div>
+
+
+<h3>2. Installing Homebrew</h3>
+
+<p>Homebrew is a tool for easily downloading and building libraries that you will need as a developer on OSX. You can install it with the following command</p>
+
+<div class="highlight">
+<pre>/usr/bin/ruby -e <span class="s2">"$(/usr/bin/curl -fksSL <a href="https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)">https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)</a>"</span> 
+</pre>
+</div>
+
+
+<p>To see that homebrew installed, try running the <code>brew</code> command. You should see something that looks like the following snippet</p>
+
+<div class="highlight">
+<pre> % brew
+ Example usage:
+   brew install FORMULA...
+   brew uninstall FORMULA...
+   brew search <span class="o">[</span>foo<span class="o">]</span>
+   brew list <span class="o">[</span>FORMULA...<span class="o">]</span>
+   brew update
+   brew upgrade <span class="o">[</span>FORMULA...<span class="o">]</span>
+   brew <span class="o">[</span>info | home<span class="o">]</span> <span class="o">[</span>FORMULA...<span class="o">]</span>
+
+ Troubleshooting:
+   brew doctor
+   brew install -vd FORMULA
+   brew <span class="o">[</span>--env | --config<span class="o">]</span>
+
+ Brewing:
+   brew create <span class="o">[</span>URL <span class="o">[</span>--no-fetch<span class="o">]]</span>
+   brew edit <span class="o">[</span>FORMULA...<span class="o">]</span>
+   open <a href="https://github.com/mxcl/homebrew/wiki/Formula-Cookbook">https://github.com/mxcl/homebrew/wiki/Formula-Cookbook</a>
+
+Further Help:
+  man brew
+  brew home
+</pre>
+</div>
+
+
+<h3>3. Installing Ruby</h3>
+
+<p>Most Rubyists use a tool called RVM (Ruby Version Manager) to install their ruby. The goal of the project is to allow one to switch between rubies easily, but it also has a set of very well maintained build scripts for the various versions of ruby on various operating systems.</p>
+
+<p>To install rvm, run the following command in a new terminal </p>
+
+<div class="highlight">
+<pre>bash -s stable &lt; &lt;<span class="o">(</span>curl -s <a href="https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer">https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer</a><span class="o">)</span>
+</pre>
+</div>
+
+
+<p>This will download and set up rvm for you. You should see some notes from wayne on how to use rvm show up on your screen. One of the notes will tell you to paste a line into your <code>.bashrc</code> file, which is required.</p>
+
+<p>You can see that rvm is installed correctly by running <code>rvm -v</code>, which should show something like this</p>
+
+<div class="highlight">
+<pre>rvm 1.10.3 by Wayne E. Seguin &lt;wayneeseguin@gmail.com&gt;, Michal Papis &lt;mpapis@gmail.com&gt; <span class="o">[</span><a href="https://rvm.beginrescueend.com/">https://rvm.beginrescueend.com/</a><span class="o">]</span>
+</pre>
+</div>
+
+
+<p>Now that you have rvm, ruby is simple to install</p>
+
+<div class="highlight">
+<pre>rvm install 1.9.3
+<span class="c">## -- rvm will download and compile ruby -- ##</span>
+rvm 1.9.3 --default <span class="c"># switch to the new ruby, and make it your default</span>
+ruby -v <span class="c"># you should see something like "ruby 1.9.3p125 (2012-02-16 revision 34643) [x86_64-darwin11.3.0]"</span>
+</pre>
+</div>
+
+
+<h3>4. Installing Rails</h3>
+
+<p>Now that we have ruby, we will install rails the same way we install any ruby library -- with the <code>gem</code> command</p>
+
+<div class="highlight">
+<pre>gem install rails
+</pre>
+</div>
+
+
+<p>To see that rails is working, create a new project</p>
+
+<div class="highlight">
+<pre>rails new <span class="nb">test</span>-my-rails <span class="c"># create a new directory with a full rails setup</span>
+<span class="nb">cd test</span>-my-rails
+bundle install <span class="c"># install all the project dependancies specified by your Gemfile</span>
+rails server <span class="c"># start the rails server</span>
+</pre>
+</div>
+
+
+<p>Assuming all of that happened without error, open a browser and enter <code>http://localhost:3000</code>. You should see a page welcoming you to rails.</p>
+
+<p>Congratulations! You have a full rails development set up :)</p>
+
+<h1>So, what now?</h1>
+
+<p>For a comprehensive, up to date (and free!) tutorial for Ruby on Rails, you can visit <a href="http://ruby.railstutorial.org/ruby-on-rails-tutorial-book">http://ruby.railstutorial.org/ruby-on-rails-tutorial-book</a></p>
+
+<p>For a fun and interactive tutorial on ruby, you can visit <a href="http://tryruby.org">http://tryruby.org</a></p>
+
+<p>For a more thourough resource on learning ruby, I would recommend the excellent book, "The Well Grounded Rubyist" <a href="http://manning.com/black2/">http://manning.com/black2/</a></p>
+
+<p>For a more thourough resource on learning rails, I would recommend the excellent book "Rails in Action" <a href="http://manning.com/katz/">http://manning.com/katz/</a></p>
+      </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/mbriggs">mbriggs</a> can be found on <a href="https://github.com/mbriggs/install-rails">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
+    </div>
+
+    
+  </body>
+</html>
